@@ -1,0 +1,11 @@
+import express from 'express';
+import JobController from '../Controllers/job.controller';
+import bodyParser from 'body-parser';
+var jsonParser = bodyParser.json();
+const JobRouter=express.Router();
+JobRouter.delete("/DeleteJob/:id",JobController.DeleteJob);
+JobRouter.post("/AddJob",jsonParser, JobController.AddJob);
+JobRouter.get("/GetJobs", JobController.GetAll);
+JobRouter.get("/GetById/:id", JobController.GetById);
+JobRouter.put("/UpdateJob/:id",jsonParser, JobController.UpdateJob);
+export default JobRouter;
