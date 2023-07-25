@@ -1,6 +1,5 @@
-import candidateModule from "../Moduls/candidate.module";
+import candidateModule, { Candidate } from "../Moduls/candidate.module";
 import express, { Request, Response } from "express";
-import {Condidate} from '../Moduls/candidate.module'
 const CondidateController = {
 
     GetAll: async (req:Request, res:Response)=>{
@@ -18,7 +17,7 @@ const CondidateController = {
         const { name,rating,phoneNumber,tests,experience,email,field,jobId} = req.body;
         try {
             const newUser = await candidateModule
-            .create(new Condidate(name,rating,email,phoneNumber,tests,experience,field,jobId));
+            .create(new Candidate(name,rating,email,phoneNumber,tests,experience,field,jobId));
             await newUser.save();
             res.json(newUser);
         }
@@ -38,12 +37,20 @@ const CondidateController = {
     },
 
     UpdateCondidate: async (req:Request, res:Response) => {
+        console.log("put");
+        console.log(req.params);
+        console.log(req.body);
+        
+        
         try {
-            const { id } = req.params;
-            const { user } = req.body;
-            candidateModule.updateOne(id.toString, user);
+            const {id} = req.params;
+            const newCandidate  = req.body;
+            const updateCandidate=await candidateModule.updateOne({id:id},newCandidate);    
+            res.json(updateCandidate);
         }
         catch (e:any) {
+            console.log("chtch");
+            
             res.status(404).json({ message: e.message });
         }
     },

@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose"
-interface IJob {
+import { v4 as uuidv4 } from 'uuid';
+
+export class Job {
     id:string
     name: string;
     locationCompany?:string;
@@ -8,9 +10,20 @@ interface IJob {
     requirements:[string];
     status:boolean;
     date:Date;
+    constructor(name:string,date:Date,requirements:[string],status:boolean,descriptionCompany?:string,descriptionJob?:string
+        ,locationCompany?:string) {
+        this.id=uuidv4();
+        this.name=name;
+        this.date=date;
+        this.descriptionCompany=descriptionCompany,
+        this.descriptionJob=descriptionJob,
+        this.locationCompany=locationCompany,
+        this.requirements=requirements,
+        this.status=status
+    }
 }
 
-const jobSchema = new mongoose.Schema<IJob>({
+const jobSchema = new mongoose.Schema<Job>({
     id:
     {
         type: String,

@@ -6,7 +6,7 @@ enum testType {
     Personality="Personality",
     reliability="reliability"
 }
-export class Condidate {
+export class Candidate {
         id:string
         name:String;
         rating?: Number;
@@ -30,7 +30,7 @@ export class Condidate {
     }
  
 }
-const candidateSchema = new mongoose.Schema<Condidate>({
+const candidateSchema = new mongoose.Schema<Candidate>({
     id:
     {
         type: String,

@@ -1,4 +1,4 @@
-import jobModule from "../Moduls/job.module";
+import jobModule, { Job } from "../Moduls/job.module";
 import express, { Request, Response } from "express";
 const JobController = {
     GetAll: async (req:Request, res:Response)=>{
@@ -14,10 +14,10 @@ const JobController = {
 
     AddJob:  async (req:Request, res:Response) => {
         console.log(req.body);
-        const {id, name,locationCompany,descriptionCompany,descriptionJob,requirements,status,date} = req.body;
+        const { name,locationCompany,descriptionCompany,descriptionJob,requirements,status,date} = req.body;
         try {
             const newUser = await jobModule
-            .create({id,name,locationCompany,descriptionCompany,descriptionJob,requirements,status,date });
+            .create(new Job(name,locationCompany,descriptionCompany,descriptionJob,requirements,status,date ));
             await newUser.save();
             res.json(newUser);
         }
@@ -40,8 +40,9 @@ const JobController = {
         console.log("put")
         try {
             const { id } = req.params;
-            const { user } = req.body;
-            jobModule.updateOne(id.toString, user);
+            const  job = req.body;
+            const updateJob =await jobModule.updateOne({id:id},job);
+            res.json(updateJob);
         }
         catch (e:any) {
             res.status(404).json({ message: e.message });
